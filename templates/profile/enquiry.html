@@ -1,0 +1,196 @@
+{%extends '../base/base.html'%}
+{%block content%}
+<div class="content">
+  <div class="">
+    {%if messages%}
+        {%for message in messages%}
+          <div class="alert alert-success alert-dismissible fade show" role="alert">{{message}}<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          </div>
+        {%endfor%}
+    {%endif%}
+  </div>
+  <form method="POST">
+    {%csrf_token%}
+      <div class="card card-user">
+        <div class="card-header">
+                <!--<h5 class="card-title">Enquiry</h5>-->
+        </div>
+        <div class="card-body">
+          <form>
+            <div class="row">
+              <div class="col-md-4 pr-1">
+                <div class="form-group">
+                  <label>Nombre</label>
+                  <input type="text" class="form-control" placeholder="" value="" name="first_name" required="required">
+                </div>
+              </div>
+              <div class="col-md-4 pl-1">
+                <div class="form-group">
+                  <label>Apellidos</label>
+                  <input type="text" class="form-control" placeholder="" value="" name="last_name" required="required">
+                </div>
+              </div>
+              <div class="col-md-4 pl-1">
+                <div class="">
+                  <label>NIF/CIF</label>
+                  <input type="text" class="form-control" placeholder="" value="" name="nif" autocomplete="on">
+            
+                  <!---
+                  <select class="form-control" id="gender" name="gender">
+                    <option value="0">Male</option>
+                    <option value="1">Female</option>   
+                  </select>
+                  -->
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-8 pr-1">
+                <div class="form-group">
+                  <label>Nombre Entidad :</label>
+                  <input type="text" class="form-control" placeholder="" value="" name="razonsocial" autocomplete="on">
+                </div>
+              </div>
+              <div class="col-md-4 pr-1">
+                <div class="form-group">
+                  <label>Relation :</label>
+                  <input type="text" class="form-control" placeholder="" value="" name="relation" autocomplete="on">
+                </div>
+              </div>
+            </div>    
+
+            
+            <div class="row">
+              <div class="col-md-4 pr-1">
+                <div class="form-group">
+                  <label>Telefono</label>
+                  <input type="text" class="form-control" placeholder="" value="" name="contact" required="required">
+                </div>
+              </div>
+              <div class="col-md-6 pl-1">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Email address</label>
+                  <input type="email" class="form-control" placeholder="" name="email">
+                </div>
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label>Address</label>
+                  <input type="text" class="form-control" placeholder="" value="" name="address">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  
+                  <label>Concello</label>
+                  <select class="form-control" name="concello">
+                      {%for concello in concellos%}
+                        <option value="{{concello.id}}">{{concello.title}}</option>
+                      {%endfor%}
+                  </select>
+
+                </div>
+              </div>
+            </div>
+
+         
+            <div class="row">
+              <div class="col-md-4 pr-1">
+                <div class="form-group">
+                  <label>Recibida</label>
+                  <select class="form-control" name="received">
+                    {%for received in receiveds%}
+                      <option value="{{received.id}}">{{received.name}}</option>
+                    {%endfor%}
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-4 pl-1">
+                <div class="form-group">
+                  <label>Estado</label>
+                  <select class="form-control" name="status"> 
+                      {%for status in statuss%}
+                        <option value="{{status.id}}">{{status.title}} {{status.id}}</option> 
+                      {%endfor%}
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-4 pl-1">
+                <div class="">
+                  <label>Tipo Seguimiento</label>
+                  <select class="form-control" name="typefollowup">
+                      {%for typefollowup in typefollowups%}
+                        <option value="{{typefollowup.id}}">{{typefollowup.title}}</option>
+                      {%endfor%}
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label>Consulta</label>
+                  <textarea class="form-control textarea" name="enquire" required="required"></textarea>
+                </div>
+              </div>
+            </div>
+
+             
+                 
+            <div class="row">
+              <div class="col-md-4 pr-1">
+                <div class="">
+                  <label>Fecha Entrada</label>
+                  <input type="date" class="form-control date_time" required="required" name="register" autocomplete="off">
+                </div>
+              </div>
+              <div class="col-md-4 px-1">
+                <div class="">
+                  <label>Fecha Registro</label>
+                  <input type="date" class="form-control date_time" required="required" name="created_on" autocomplete="off">
+                </div>
+              </div>
+              <div class="col-md-2 pl-1">
+                <div class="">
+                  <label>Creado Por</label> {{ request.user.id }}
+                  <input type="text" class="form-control" required="required" name="createdbytexto" value = {{ request.user.username }} readonly="true" autocomplete="off">
+                  <input type="hidden" class="form-control" required="required" name="createdby" value = {{ request.user.id }}  >
+                </div>
+              </div>
+              <div class="col-md-2 pl-1">
+                <div class="">
+                  <label>Asignada a</label> 
+                    <select class="form-control" name="asigned">
+                      {%for asigned in asigneds%}
+                        <option value="{{asigned.id}}">{{asigned.username}}</option>
+                      {%endfor%}
+                    </select>              
+                </div>
+              </div>
+            </div>
+                  
+                   
+            <div class="row">
+              <div class="update ml-auto mr-auto">
+                <button type="submit" class="btn btn-primary btn-round">Guardar</button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </div>
+
+  </form>
+</div>
+
+
+
+{%endblock%}

@@ -1,0 +1,155 @@
+
+{%extends '../base/base.html'%}
+{%load static%}
+
+{%block content%}
+  <div class="content">
+    <div class="">
+            {%if messages%}
+                {%for message in messages%}
+                  <div class="alert alert-success alert-dismissible fade show" role="alert">{{message}}<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>
+                {%endfor%}
+              {%endif%}
+    </div>
+
+    <div class="row">
+      <div >      
+        <!-- class="{%if data.status == '2' %} col-md-12 {%elif data.status == '1'%} col-md-12 {%else%} col-md-4{%endif%}"-->
+        <table class="table" id="">
+          <thead class="thead-light">
+            <tr>
+              <th>Nombre Completo</th>
+              <th>Razon Social</th>
+              <th>Direccion</th>
+              <th>Estado</th>
+              <th>Registrada</th>
+              <th>Asignada</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><a href="{%url 'view_enquiry' data.id %}"><b>{{data.first_name |capfirst}} {{data.last_name |capfirst}}</b></a></td>
+              <td><a href="{%url 'view_enquiry' data.id %}"><b>{{data.razonsocial |capfirst}} </b></td>
+              <td><b>{{data.address |capfirst}} </b></a></td>
+              <td>{{data.status}}</td>
+              <td>{{data.register|date:"M d, Y (h:i A)"}}</td>
+              <td>{{data.asigned}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title text-center"> Añadir Seguimiento </h4>
+          </div>
+          <div class="card-body">
+            <form method="POST" action="{%url 'follow_up' data.id %}" autocomplete="off">
+              {%csrf_token%}
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>Seguimiento</label>
+                    <textarea class="form-control textarea" name="description" required="required"></textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <label>Fecha Seguimiento</label>
+                    <input type="date" class="form-control date_time" value="" name="date" required="required">
+                  </div>
+                </div>
+            
+                <div class="col-md-7">
+                  <div class="">
+                    <label>Tipo Seguimiento</label>
+                    <select class="form-control" name="typefollowup">
+                        {%for typefollowup in typefollowups_param%}
+                          <option value="{{typefollowup.id}}">{{typefollowup.title}}</option>
+                        {%endfor%}
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="update ml-auto mr-auto">
+                    <button type="submit" class="btn btn-primary btn-round btn-lg">Guardar</button>
+                </div>
+              </div>
+            </form>               
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- fINICH CONTENT -->
+  
+  <div class="row">
+    <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title text-center"> SEGUIMIENTOS </h4>
+            <hr>
+          </div>
+          <div class="card-body">
+            <table class="table" id="dataTable">
+              <thead class="thead-light">
+                <tr>
+                  <th>Date</th>
+                  <th>Descripcion</th>
+                  <th>Estado Seguimiento</th>
+                </tr>
+              </thead>
+              <tbody>
+                {%for follow in follow_ups%}
+                  <tr>
+                  <td width="20%">{{follow.date |date:"M d, Y (h:i A)"}} : </td>
+                  <td width="80%">{{follow.description}}</td>
+                  <td width="80%">{{follow.typefollowup}}</td>
+                </tr>
+                {%endfor%}
+              </tbody>
+            </table> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal -->
+  <div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title"></h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          
+        </div>
+        <div class="modal-body">
+          <p><b>Name : </b> {{data.first_name}} {{data.last_name}}</p>
+          <p><b>Date of Birth : </b> {{data.date_of_birth}}</p>
+          <p><b>Qualification : </b> {{data.qualification}}</p>
+          <p><b>Address : </b> {{data.address}}</p>
+          <p><b>Experience : </b> {{data.experience}} Years</p>
+          <p><b>Phone : </b> {{data.contact}}</p>
+          <p><b>Email : </b> {{data.email}}</p>
+          <p><b>Course : </b> {{data.course}}</p>
+          <p><b>Course Type : </b> {% if data.course_type == '0'%}Basic Training {%else%} On Job Training {%endif%}</p>
+          <p><b>Expected : </b> {{data.expected_date}}</p>
+          <p><b>Lead Source : </b> {{data.lead_sourse}}</p>
+          <p><b>Lead Date : </b> {{data.lead_date}}</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{%endblock%}
