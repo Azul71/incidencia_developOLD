@@ -32,7 +32,7 @@ def login(request):
 			else:
 				return HttpResponseRedirect('/admin/')
 		else:
-			messages.error(request,'Invalid User Credentials !!')
+			messages.error(request,'Credenciales Invalidas !!')
 			return render(request,'index.html')
 
 

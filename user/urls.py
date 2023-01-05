@@ -1,9 +1,10 @@
 from django.urls import path
 from . import views
+from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
 	path('',views.home,name='home'),
-	path('login/',views.login,name='login'),
+	path('accounts/login/',views.login,name='login'),
 	path('dashboard/',views.dashboard,name='dashboard'),
 	path('logout/',views.logout,name='logout'),
 	path('profile/',views.user_profile,name='user_profile'),

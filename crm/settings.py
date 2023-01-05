@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 from pathlib import Path
 from django.utils.translation import gettext_lazy as _
+from django.urls import reverse_lazy
 
 
 from dotenv import load_dotenv
@@ -132,13 +133,16 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'es'
 
-TIME_ZONE = 'europe/london'
+TIME_ZONE = 'Europe/Paris'
 
 USE_I18N = True
 
 USE_L10N = True
 
 USE_TZ = True
+
+
+
 
 
 # Static files (CSS, JavaScript, Images)
@@ -150,6 +154,8 @@ STATIC_DIRS = 'static'
 STATICFILES_DIRS = [
    STATIC_DIRS,
 ]
+
+
 
 AUTH_USER_MODEL = 'user.CustomUser'
 

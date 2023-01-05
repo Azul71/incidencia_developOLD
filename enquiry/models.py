@@ -9,6 +9,8 @@ from django.conf import settings
 class Received(models.Model):
 	name = models.CharField(max_length=100)
 	created_on = models.DateTimeField(default=datetime.now)
+	class Meta:
+		ordering = ['name']
 
 	def __str__(self):
 		return self.name
@@ -25,6 +27,8 @@ class Roles(models.Model):
 class Status(models.Model):
 	title = models.CharField(max_length=50)
 	created_on = models.DateTimeField(default=datetime.now)
+	class Meta:
+		ordering = ['title']
 
 	def __str__(self):
 		return self.title
@@ -32,6 +36,8 @@ class Status(models.Model):
 class TypeFollowUp(models.Model):
 	title = models.CharField(max_length=50)
 	created_on = models.DateTimeField(default=datetime.now)
+	class Meta:
+		ordering = ['title']
 
 	def __str__(self):
 		return self.title
@@ -39,6 +45,8 @@ class TypeFollowUp(models.Model):
 class Concello(models.Model):
 	title = models.CharField(max_length=50)
 	created_on = models.DateTimeField(default=datetime.now)
+	class Meta:
+		ordering = ['title']
 
 	def __str__(self):
 		return self.title

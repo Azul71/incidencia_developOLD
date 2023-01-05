@@ -8,10 +8,12 @@ from django.db.models import Count,Sum
 from random import randint
 from django.core.mail import send_mail
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
 # Insert an Enquiry
+@login_required(login_url='/')
 def enquiry(request):
 	if request.method == 'POST':
 		first_name = request.POST['first_name']
@@ -72,6 +74,7 @@ def enquiry(request):
 
 
 # View all enquirey 
+@login_required(login_url='/')
 def all_enquires(request):
 	asigned = CustomUser.objects.get(id=request.user.id)
 
@@ -83,7 +86,7 @@ def all_enquires(request):
 	}
 	return render(request,'profile/all_enquiries.html',context)
 
-
+@login_required(login_url='/')
 def view_enquiry(request,id):
 	fetch = Enquiry.objects.get(id=id)
 	fetch_followup = Follow_ups.objects.filter(enquiry=id).order_by('date')
@@ -97,7 +100,7 @@ def view_enquiry(request,id):
 	}
 	return render(request,'profile/view_enquiry.html',context)
 
-
+@login_required(login_url='/')
 def follow_up(request,e_id):
 	fetch = Enquiry.objects.get(id=e_id)
 	if request.method == 'POST':
@@ -108,7 +111,7 @@ def follow_up(request,e_id):
 		#fetch.save()
 		insert = Follow_ups(enquiry=fetch,description=description,date=date,typefollowup_id= typefollowup,created_on=created_on)
 		insert.save()
-		messages.success(request,'Successfully Submitted!!')
+		messages.success(request,'Guardada !!')
 
 	fetch_followup = Follow_ups.objects.filter(enquiry=e_id).order_by('date')
 	typefollowups_param = TypeFollowUp.objects.all()
@@ -121,7 +124,7 @@ def follow_up(request,e_id):
 
 
 
-
+@login_required(login_url='/')
 def accounts(request,e_id):
 	fetch = Enquiry.objects.get(id=e_id)
 	details = request.POST['details']
@@ -131,7 +134,7 @@ def accounts(request,e_id):
 	insert = account(enquiry_id=fetch,detail=details,date=date,amount=amount)
 	insert.save();
 
-	messages.success(request,'Successfully Submitted!!')
+	messages.success(request,'Guardada !!')
 
 	fetch_followup = Follow_ups.objects.filter(enquiry=e_id).order_by('date')
 	fetch_account = account.objects.filter(enquiry_id=e_id).order_by('date')
@@ -163,7 +166,7 @@ def accounts(request,e_id):
 
 
 
-
+@login_required(login_url='/')
 def status_filter(request,s_id):
 	asigned = CustomUser.objects.get(id=request.user.id)
 
@@ -176,7 +179,7 @@ def status_filter(request,s_id):
 	}
 	return render(request,'profile/status_filter.html',context)
 
-
+@login_required(login_url='/')
 def create_user(request,u_id):
 	student = Enquiry.objects.get(id=u_id)
 	random_num = str(randint(100000, 999999))
